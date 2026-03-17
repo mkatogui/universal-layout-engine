@@ -6,26 +6,42 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
-    "./types": { "import": "./dist/types/index.js", "types": "./dist/types/index.d.ts" },
-    "./validation": { "import": "./dist/validation/index.js", "types": "./dist/validation/index.d.ts" },
-    "./tree": { "import": "./dist/tree/index.js", "types": "./dist/tree/index.d.ts" },
-    "./resolver": { "import": "./dist/resolver/index.js", "types": "./dist/resolver/index.d.ts" }
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./validation": {
+      "import": "./dist/validation/index.js",
+      "types": "./dist/validation/index.d.ts"
+    },
+    "./tree": {
+      "import": "./dist/tree/index.js",
+      "types": "./dist/tree/index.d.ts"
+    },
+    "./resolver": {
+      "import": "./dist/resolver/index.js",
+      "types": "./dist/resolver/index.d.ts"
+    }
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint": "biome check src/",
     "clean": "rm -rf dist"
   },
-  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.6.0",
-    "vitest": "^2.1.0"
+    "vitest": "^4.1.0"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "license": "MIT"
 }

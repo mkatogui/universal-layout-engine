@@ -1,0 +1,20 @@
+{
+  "version": "0.1.0",
+  "platforms": [
+    "web"
+  ],
+  "outputDir": "./dist",
+  "tokenDir": "./tokens",
+  "validation": {
+    "rules": [
+      "anti-patterns",
+      "a11y",
+      "structure"
+    ],
+    "strictMode": false
+  },
+  "preview": {
+    "port": 3000,
+    "autoOpen": true
+  }
+}
