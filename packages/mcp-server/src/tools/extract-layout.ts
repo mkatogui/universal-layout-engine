@@ -1,4 +1,4 @@
-import { Tool } from '@modelcontextprotocol/sdk/server/index.js';
+import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 
 /**
  * Tool input arguments for extract layout
@@ -85,7 +85,7 @@ export const extractLayoutTool: Tool & { handler: (input: ExtractLayoutInput) =>
 
     // Sample IR response
     const sampleIR: ExtractedIR = {
-      version: '1.0',
+      version: '1.0.0',
       meta: {
         figmaUrl,
         extractedAt: new Date().toISOString(),
@@ -104,14 +104,14 @@ export const extractLayoutTool: Tool & { handler: (input: ExtractLayoutInput) =>
               name: 'Button',
               componentKey: 'Button:primary',
               tokens: {
-                background: '$-color-primary',
-                padding: '$-spacing-md',
+                background: '$color-brand',
+                padding: '$space-4',
               },
             },
           ],
           tokens: {
-            background: '$-color-surface',
-            spacing: '$-spacing-lg',
+            background: '$color-bg-surface',
+            spacing: '$space-6',
           },
         },
       ],

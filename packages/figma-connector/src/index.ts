@@ -34,16 +34,5 @@ export type {
 export { CodeConnectMapper } from './code-connect/mapper.js';
 export type { CodeConnectData, ComponentSuggestion } from './code-connect/mapper.js';
 
-// Layout Parser
+// Layout Parser (outputs @mkatogui/ule-core IR types)
 export { FigmaLayoutParser } from './parser.js';
-export type {
-  LayoutNode,
-  StackNode,
-  GridNode,
-  ComponentNode,
-  TextNode,
-  ImageNode,
-  SpacerNode,
-  ConditionalNode,
-  ContainerNode,
-} from './parser.js';

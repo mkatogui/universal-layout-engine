@@ -69,12 +69,25 @@ const KNOWN_Z_TOKENS = new Set([
   '$z-dropdown', '$z-sticky', '$z-overlay', '$z-modal', '$z-toast', '$z-tooltip', '$z-system',
 ]);
 
+const KNOWN_TYPOGRAPHY_TOKENS = new Set([
+  '$font-size-xs', '$font-size-sm', '$font-size-md', '$font-size-lg',
+  '$font-size-xl', '$font-size-2xl', '$font-size-3xl', '$font-size-4xl',
+  '$font-weight-normal', '$font-weight-medium', '$font-weight-bold',
+  '$line-height-tight', '$line-height-normal', '$line-height-relaxed',
+]);
+
+const KNOWN_OPACITY_TOKENS = new Set([
+  '$opacity-disabled', '$opacity-muted', '$opacity-subtle',
+]);
+
 const ALL_KNOWN_TOKENS = new Set([
   ...KNOWN_SPACING_TOKENS,
   ...KNOWN_COLOR_TOKENS,
   ...KNOWN_LAYOUT_TOKENS,
   ...KNOWN_MOTION_TOKENS,
   ...KNOWN_Z_TOKENS,
+  ...KNOWN_TYPOGRAPHY_TOKENS,
+  ...KNOWN_OPACITY_TOKENS,
 ]);
 
 // ─── Helpers ────────────────────────────────────────────────
@@ -105,10 +118,10 @@ function validateNodeStructure(node: LayoutNode, path: string, issues: Validatio
   }
 
   // Every node must have a type
-  if (!node.type) {
+  if (!(node as BaseNode).type) {
     issues.push({
       severity: 'error',
-      nodeId: node.id,
+      nodeId: (node as BaseNode).id,
       nodePath: path,
       rule: 'node-type-required',
       message: 'Every node must have a type',

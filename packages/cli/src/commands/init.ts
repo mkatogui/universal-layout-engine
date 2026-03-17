@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { Command } from 'commander';
-import { saveConfig, DEFAULT_CONFIG, validateConfig } from '../config.js';
+import { saveConfig, DEFAULT_CONFIG, validateConfig, type UleConfig } from '../config.js';
 
 /**
  * Initialize a new ULE project with default configuration and directory structure
@@ -37,13 +37,13 @@ export async function initCommand(
       : DEFAULT_CONFIG.platforms;
 
     // Create configuration
-    const config = {
+    const config: UleConfig = {
       version: '0.1.0',
       platforms,
       outputDir: './dist',
       tokenDir: './tokens',
       validation: {
-        rules: ['anti-patterns', 'a11y', 'structure'],
+        rules: ['anti-patterns', 'a11y', 'structure'] as const,
         strictMode: false,
       },
       preview: {

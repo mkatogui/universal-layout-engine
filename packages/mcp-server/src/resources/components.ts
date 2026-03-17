@@ -63,7 +63,7 @@ const COMPONENT_DEFINITIONS: ComponentLibrary = {
         ios: 'Button (SwiftUI)',
         android: 'Button (Compose)',
       },
-      tokens: ['$-color-primary', '$-spacing-md', '$-radius-md', '$-font-size-body'],
+      tokens: ['$color-brand', '$space-4', '$space-2', '$font-size-md'],
     },
 
     {
@@ -620,6 +620,10 @@ const COMPONENT_DEFINITIONS: ComponentLibrary = {
  * Resource that provides component library definitions
  */
 export const componentsResource = {
+  uri: 'ule://components',
+  name: 'UDS Components',
+  description: 'Universal Design System component library',
+  mimeType: 'application/json',
   async getContent(): Promise<string> {
     return JSON.stringify(COMPONENT_DEFINITIONS, null, 2);
   },

@@ -21,9 +21,9 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@mkatogui/ule-core": "workspace:*",
-    "@mkatogui/ule-figma-connector": "workspace:*",
-    "@mkatogui/ule-renderers": "workspace:*",
+    "@mkatogui/ule-core": "*",
+    "@mkatogui/ule-figma-connector": "*",
+    "@mkatogui/ule-renderers": "*",
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {

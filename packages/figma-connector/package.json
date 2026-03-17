@@ -16,7 +16,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@mkatogui/ule-core": "workspace:*"
+    "@mkatogui/ule-core": "*"
   },
   "devDependencies": {
     "typescript": "^5.3.0",

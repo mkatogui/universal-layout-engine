@@ -14,6 +14,10 @@
  */
 
 interface TokenResource {
+  uri: string;
+  name: string;
+  description?: string;
+  mimeType?: string;
   getContent: () => Promise<string>;
 }
 
@@ -152,39 +156,39 @@ const TOKEN_DEFINITIONS = {
   componentTokens: {
     button: {
       primary: {
-        background: '$-color-primary',
-        color: '$-color-on-primary',
-        padding: '$-spacing-md $-spacing-lg',
-        borderRadius: '$-radius-md',
-        fontSize: '$-font-size-body',
-        fontWeight: '$-font-weight-semibold',
-        shadow: '$-shadow-sm',
-        transition: '$-transition-base $-easing-ease-in-out',
+        background: '$color-brand',
+        color: '$color-bg-primary',
+        padding: '$space-3 $space-4',
+        borderRadius: '$space-2',
+        fontSize: '$font-size-md',
+        fontWeight: '$font-weight-bold',
+        shadow: '$opacity-subtle',
+        transition: '$duration-normal $easing-standard',
       },
       secondary: {
-        background: '$-color-secondary',
-        color: '$-color-on-secondary',
-        padding: '$-spacing-md $-spacing-lg',
-        borderRadius: '$-radius-md',
+        background: '$color-bg-secondary',
+        color: '$color-text-primary',
+        padding: '$space-3 $space-4',
+        borderRadius: '$space-2',
       },
     },
 
     input: {
       base: {
-        padding: '$-spacing-sm $-spacing-md',
-        borderRadius: '$-radius-md',
-        fontSize: '$-font-size-body',
-        fontFamily: '$-font-family-body',
+        padding: '$space-2 $space-3',
+        borderRadius: '$space-2',
+        fontSize: '$font-size-md',
+        fontFamily: '$font-size-md',
         border: '1px solid #ccc',
       },
     },
 
     card: {
       base: {
-        background: '$-color-surface',
-        borderRadius: '$-radius-lg',
-        padding: '$-spacing-lg',
-        shadow: '$-shadow-md',
+        background: '$color-bg-surface',
+        borderRadius: '$space-3',
+        padding: '$space-4',
+        shadow: '$opacity-muted',
       },
     },
   },
@@ -194,6 +198,10 @@ const TOKEN_DEFINITIONS = {
  * Resource that provides UDS token definitions
  */
 export const tokensResource: TokenResource = {
+  uri: 'ule://tokens',
+  name: 'UDS Tokens',
+  description: 'Universal Design System token definitions',
+  mimeType: 'application/json',
   async getContent(): Promise<string> {
     return JSON.stringify(TOKEN_DEFINITIONS, null, 2);
   },

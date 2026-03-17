@@ -1,40 +1,38 @@
 import type {
+  IRDocument,
+  FrameNode,
   StackNode,
+  GridNode,
+  ScrollNode,
   ComponentNode,
   TextNode,
   ImageNode,
   SpacerNode,
-  ContainerNode,
   LayoutNode,
 } from '@mkatogui/ule-core';
+
+import { pascalCase, camelCase, extractSpacingValue, getNodeChildren } from '../utils.js';
 
 /**
  * iOS Renderer for Universal Layout Engine
  *
- * Converts IR layout nodes into SwiftUI code for iOS applications.
- * Generates SwiftUI View hierarchies with proper styling and component usage.
- *
- * @example
- * ```ts
- * const renderer = new IosRenderer();
- * const swiftCode = renderer.renderDocument(irDocument);
- * ```
+ * Converts IR layout nodes into SwiftUI code.
+ * Uses `@mkatogui/ule-core` IR types exclusively.
  */
 export class IosRenderer {
   /**
    * Render a complete IR document into SwiftUI code
-   *
-   * @param doc IR document to render
-   * @returns SwiftUI View code as string
    */
-  renderDocument(doc: any): string {
-    const viewCode = this.renderNode(doc.root);
+  renderDocument(doc: IRDocument): string {
+    const frames = doc.frames
+      .map((frame) => this.renderNode(frame))
+      .join('\n\n');
 
     return `import SwiftUI
 
 struct GeneratedView: View {
   var body: some View {
-    ${viewCode}
+    ${frames}
   }
 }
 
@@ -45,238 +43,134 @@ struct GeneratedView: View {
 
   /**
    * Render a single IR node into SwiftUI code
-   *
-   * @param node Layout node to render
-   * @returns SwiftUI code string
    */
   renderNode(node: LayoutNode): string {
     switch (node.type) {
-      case 'stack':
-        return this.renderStack(node as StackNode);
-      case 'component':
-        return this.renderComponent(node as ComponentNode);
-      case 'text':
-        return this.renderText(node as TextNode);
-      case 'image':
-        return this.renderImage(node as ImageNode);
-      case 'spacer':
-        return this.renderSpacer(node as SpacerNode);
-      case 'container':
-        return this.renderContainer(node as ContainerNode);
+      case 'FrameNode':
+        return this.renderFrame(node);
+      case 'StackNode':
+        return this.renderStack(node);
+      case 'GridNode':
+        return this.renderGrid(node);
+      case 'ScrollNode':
+        return this.renderScroll(node);
+      case 'ComponentNode':
+        return this.renderComponent(node);
+      case 'TextNode':
+        return this.renderText(node);
+      case 'ImageNode':
+        return this.renderImage(node);
+      case 'SpacerNode':
+        return this.renderSpacer(node);
       default:
-        return '// Unknown node type';
+        return `// Unsupported node type: ${node.type}`;
     }
   }
 
-  /**
-   * Render a StackNode as HStack or VStack
-   * @private
-   */
-  private renderStack(node: StackNode): string {
-    const stackType = node.direction === 'row' ? 'HStack' : 'VStack';
-    const spacing = node.gap ? this.extractSpacingValue(node.gap) : '0';
-    const childrenCode = node.children.map((child) => this.renderNode(child)).join('\n    ');
-    const alignment = this.mapAlignment(node.alignItems);
-
-    const alignmentArg = alignment ? `, alignment: .${alignment}` : '';
-
-    return `${stackType}(spacing: ${spacing}${alignmentArg}) {
-      ${childrenCode}
+  private renderFrame(node: FrameNode): string {
+    const children = node.children.map((child) => this.renderNode(child)).join('\n      ');
+    return `VStack(spacing: 0) {
+      ${children}
     }`;
   }
 
-  /**
-   * Render a ComponentNode as a SwiftUI component
-   * @private
-   */
-  private renderComponent(node: ComponentNode): string {
-    const componentName = this.pascalCase(node.componentName);
+  private renderStack(node: StackNode): string {
+    const stackType = node.direction === 'row' ? 'HStack' : 'VStack';
+    const spacing = node.gap ? extractSpacingValue(String(node.gap)) : 0;
+    const alignment = this.mapAlignment(node.crossAxisAlign);
+    const alignmentArg = alignment ? `, alignment: .${alignment}` : '';
 
-    if (node.componentVariant && Object.keys(node.componentVariant).length > 0) {
-      const variantString = Object.entries(node.componentVariant)
-        .map(([key, value]) => `${this.camelCase(key)}: .${value}`)
-        .join(', ');
+    const children = node.children.map((child) => this.renderNode(child)).join('\n      ');
 
-      return `${componentName}(${variantString})`;
-    }
-
-    return `${componentName}()`;
+    return `${stackType}(spacing: ${spacing}${alignmentArg}) {
+      ${children}
+    }`;
   }
 
-  /**
-   * Render a TextNode as SwiftUI Text view
-   * @private
-   */
+  private renderGrid(node: GridNode): string {
+    const children = node.children.map((child) => this.renderNode(child)).join('\n      ');
+    return `LazyVGrid(columns: [GridItem(.flexible())]) {
+      ${children}
+    }`;
+  }
+
+  private renderScroll(node: ScrollNode): string {
+    const axis = node.direction === 'horizontal' ? '.horizontal' : '.vertical';
+    const children = node.children.map((child) => this.renderNode(child)).join('\n      ');
+    return `ScrollView(${axis}) {
+      ${children}
+    }`;
+  }
+
+  private renderComponent(node: ComponentNode): string {
+    const name = pascalCase(node.component);
+    if (node.variant) {
+      return `${name}(variant: .${camelCase(node.variant)})`;
+    }
+    return `${name}()`;
+  }
+
   private renderText(node: TextNode): string {
     const content = JSON.stringify(node.content);
-    const fontSize = node.fontSize ? `.system(size: ${this.extractPixelValue(node.fontSize)})` : '.body';
-    const fontWeight = node.fontWeight ? `.${this.mapFontWeight(node.fontWeight)}` : '.regular';
-
     let textCode = `Text(${content})`;
 
     if (node.fontSize) {
-      textCode += `\n      .font(.system(size: ${this.extractPixelValue(node.fontSize)}, weight: ${fontWeight}))`;
+      const size = extractSpacingValue(String(node.fontSize)) || 16;
+      const weight = node.fontWeight ? this.mapFontWeight(String(node.fontWeight)) : '.regular';
+      textCode += `\n      .font(.system(size: ${size}, weight: ${weight}))`;
     }
 
     if (node.textAlign && node.textAlign !== 'left') {
-      const alignment = this.mapTextAlignment(node.textAlign);
-      textCode += `\n      .multilineTextAlignment(.${alignment})`;
+      textCode += `\n      .multilineTextAlignment(.${this.mapTextAlignment(node.textAlign)})`;
     }
 
     return textCode;
   }
 
-  /**
-   * Render an ImageNode as SwiftUI Image view
-   * @private
-   */
   private renderImage(node: ImageNode): string {
-    let imageCode = `Image("${node.src || 'placeholder'}")`;
+    let imageCode = `Image("${node.src}")`;
 
-    if (node.objectFit === 'cover') {
+    if (node.fit === 'cover') {
       imageCode += '\n      .resizable()\n      .scaledToFill()';
-    } else if (node.objectFit === 'contain') {
+    } else if (node.fit === 'contain') {
       imageCode += '\n      .resizable()\n      .scaledToFit()';
     } else {
       imageCode += '\n      .resizable()';
     }
 
-    if (node.width && node.height) {
-      const w = this.extractPixelValue(node.width);
-      const h = this.extractPixelValue(node.height);
-      imageCode += `\n      .frame(width: ${w}, height: ${h})`;
-    }
+    imageCode += `\n      .accessibilityLabel(${JSON.stringify(node.alt)})`;
 
     return imageCode;
   }
 
-  /**
-   * Render a SpacerNode as SwiftUI Spacer
-   * @private
-   */
   private renderSpacer(node: SpacerNode): string {
-    if (node.width && node.height) {
-      const w = this.extractPixelValue(node.width);
-      const h = this.extractPixelValue(node.height);
-      return `Spacer()\n      .frame(width: ${w}, height: ${h})`;
+    if (node.fixedSize) {
+      const size = extractSpacingValue(String(node.fixedSize));
+      return `Spacer()\n      .frame(width: ${size}, height: ${size})`;
     }
-
-    if (node.flex) {
-      return `Spacer()`;
-    }
-
-    return `Spacer()`;
+    return 'Spacer()';
   }
 
-  /**
-   * Render a ContainerNode as a basic VStack
-   * @private
-   */
-  private renderContainer(node: ContainerNode): string {
-    const childrenCode = node.children.map((child) => this.renderNode(child)).join('\n    ');
-
-    let containerCode = `VStack {
-      ${childrenCode}
-    }`;
-
-    if (node.width || node.height) {
-      const w = node.width ? this.extractPixelValue(node.width) : 'nil';
-      const h = node.height ? this.extractPixelValue(node.height) : 'nil';
-      containerCode += `\n    .frame(width: ${w}, height: ${h})`;
-    }
-
-    return containerCode;
-  }
-
-  /**
-   * Map alignment value to SwiftUI alignment
-   * @private
-   */
   private mapAlignment(align?: string): string | undefined {
     switch (align) {
-      case 'start':
-        return 'leading';
-      case 'center':
-        return 'center';
-      case 'end':
-        return 'trailing';
-      default:
-        return undefined;
+      case 'start': return 'leading';
+      case 'center': return 'center';
+      case 'end': return 'trailing';
+      default: return undefined;
     }
   }
 
-  /**
-   * Map text alignment to SwiftUI TextAlignment
-   * @private
-   */
   private mapTextAlignment(align: string): string {
     switch (align) {
-      case 'center':
-        return 'center';
-      case 'right':
-        return 'trailing';
-      case 'justify':
-        return 'center'; // SwiftUI doesn't have justify
-      default:
-        return 'leading';
+      case 'center': return 'center';
+      case 'right': return 'trailing';
+      default: return 'leading';
     }
   }
 
-  /**
-   * Map font weight value
-   * @private
-   */
-  private mapFontWeight(weight: string | number): string {
-    const w = Number(weight);
-    if (w <= 400) return 'light';
-    if (w <= 600) return 'regular';
-    if (w <= 700) return 'semibold';
-    return 'bold';
-  }
-
-  /**
-   * Extract pixel value from string (e.g., "16px" → 16)
-   * @private
-   */
-  private extractPixelValue(value: string): number {
-    return parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
-  }
-
-  /**
-   * Extract spacing value from token (e.g., "$space-4" → 16)
-   * @private
-   */
-  private extractSpacingValue(token: string): number {
-    const match = token.match(/\d+/);
-    if (match) {
-      return parseInt(match[0], 10) * 4; // 4px grid
-    }
-    return 0;
-  }
-
-  /**
-   * Convert string to PascalCase
-   * @private
-   */
-  private pascalCase(str: string): string {
-    return str
-      .replace(/[\s\-_]+/g, ' ')
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join('');
-  }
-
-  /**
-   * Convert string to camelCase
-   * @private
-   */
-  private camelCase(str: string): string {
-    return str
-      .replace(/[\s\-_]+/g, ' ')
-      .split(' ')
-      .map((word, index) =>
-        index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1),
-      )
-      .join('');
+  private mapFontWeight(weight: string): string {
+    if (weight.includes('bold') || weight === '700') return '.bold';
+    if (weight.includes('medium') || weight === '500') return '.medium';
+    return '.regular';
   }
 }

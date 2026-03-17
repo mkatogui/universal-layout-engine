@@ -200,7 +200,6 @@ export interface FigmaFill {
   rotation?: number;
   imageRef?: string;
   scalingFactor?: number;
-  rotation?: number;
   filters?: {
     exposure?: number;
     contrast?: number;

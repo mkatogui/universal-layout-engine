@@ -1,4 +1,4 @@
-import { Tool } from '@modelcontextprotocol/sdk/server/index.js';
+import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 
 /**
  * Tool input arguments for sync tokens

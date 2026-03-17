@@ -49,12 +49,12 @@ export async function syncTokensCommand(
     // Parse formats
     const formats = options.format
       ? (options.format.split(',').map((f) => f.trim().toLowerCase()) as TokenFormat[])
-      : ['css', 'json'];
+      : ['css', 'json'] as TokenFormat[];
 
     // Validate formats
-    const validFormats: TokenFormat[] = ['css', 'swift', 'compose', 'json'];
+    const validFormats: readonly string[] = ['css', 'swift', 'compose', 'json'];
     for (const format of formats) {
-      if (!validFormats.includes(format)) {
+      if (!validFormats.includes(format as string)) {
         console.error(`Error: Invalid format '${format}'`);
         console.error(`Valid formats: ${validFormats.join(', ')}`);
         process.exit(1);
@@ -84,22 +84,7 @@ export async function syncTokensCommand(
     const tokenFiles: { path: string; format: TokenFormat }[] = [];
 
     for (const format of formats) {
-      let filename: string;
-      switch (format) {
-        case 'css':
-          filename = 'tokens.css';
-          break;
-        case 'swift':
-          filename = 'Tokens.swift';
-          break;
-        case 'compose':
-          filename = 'Tokens.kt';
-          break;
-        case 'json':
-          filename = 'tokens.json';
-          break;
-      }
-
+      const filename = getTokenFilename(format);
       const fullPath = path.join(outputDir, filename);
       tokenFiles.push({ path: fullPath, format });
 
@@ -123,5 +108,14 @@ export async function syncTokensCommand(
       console.error('Unknown error during token synchronization');
     }
     process.exit(1);
+  }
+}
+
+function getTokenFilename(format: TokenFormat): string {
+  switch (format) {
+    case 'css': return 'tokens.css';
+    case 'swift': return 'Tokens.swift';
+    case 'compose': return 'Tokens.kt';
+    case 'json': return 'tokens.json';
   }
 }

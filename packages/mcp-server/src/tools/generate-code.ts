@@ -1,4 +1,4 @@
-import { Tool } from '@modelcontextprotocol/sdk/server/index.js';
+import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 
 /**
  * Tool input arguments for generate code
@@ -102,7 +102,7 @@ export const generateCodeTool: Tool & {
         files,
         metadata: {
           componentsCount: 5,
-          tokensUsed: ['$-color-primary', '$-spacing-md', '$-font-body'],
+          tokensUsed: ['$color-brand', '$space-4', '$font-size-md'],
           generatedAt: new Date().toISOString(),
         },
       });
@@ -155,21 +155,21 @@ export const Button: React.FC<ButtonProps> = ({
           path: 'components/Button.module.css',
           language: 'css',
           content: `.button {
-  padding: var(--mka-spacing-md);
-  border-radius: var(--mka-radius-md);
-  font-family: var(--mka-font-body);
-  transition: all 0.2s ease-in-out;
+  padding: var(--space-4);
+  border-radius: 8px;
+  font-size: var(--font-size-md);
+  transition: all var(--duration-normal) var(--easing-standard);
   cursor: pointer;
 }
 
 .button-primary {
-  background-color: var(--mka-color-primary);
-  color: var(--mka-color-on-primary);
+  background-color: var(--color-brand);
+  color: var(--color-bg-primary);
 }
 
 .button-secondary {
-  background-color: var(--mka-color-secondary);
-  color: var(--mka-color-on-secondary);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
 }
 `,
         },

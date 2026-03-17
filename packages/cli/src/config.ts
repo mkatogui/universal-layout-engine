@@ -31,7 +31,7 @@ export interface UleConfig {
 /**
  * Default configuration for new projects
  */
-const DEFAULT_CONFIG: UleConfig = {
+export const DEFAULT_CONFIG: UleConfig = {
   version: '0.1.0',
   platforms: ['web'],
   outputDir: './dist',
@@ -64,12 +64,12 @@ export async function loadConfig(projectRoot: string = process.cwd()): Promise<U
       ...DEFAULT_CONFIG,
       ...userConfig,
       validation: {
-        ...DEFAULT_CONFIG.validation,
-        ...userConfig.validation,
+        rules: userConfig.validation?.rules ?? DEFAULT_CONFIG.validation!.rules,
+        strictMode: userConfig.validation?.strictMode ?? DEFAULT_CONFIG.validation!.strictMode,
       },
       preview: {
-        ...DEFAULT_CONFIG.preview,
-        ...userConfig.preview,
+        port: userConfig.preview?.port ?? DEFAULT_CONFIG.preview!.port,
+        autoOpen: userConfig.preview?.autoOpen ?? DEFAULT_CONFIG.preview!.autoOpen,
       },
     };
   } catch (error) {

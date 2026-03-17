@@ -118,7 +118,6 @@ function hexToComposeColor(hex: string): string {
 }
 
 function resolveCss(def: TokenDefinition): string {
-  const name = def.ref.replace('$', '--');
   switch (def.category) {
     case 'spacing':
     case 'layout':

@@ -223,9 +223,29 @@ export function serializeIR(doc: IRDocument): string {
   return JSON.stringify(doc, null, 2);
 }
 
-/** Parse an IR document from JSON string */
+/** Parse an IR document from JSON string with basic validation */
 export function parseIR(json: string): IRDocument {
-  return JSON.parse(json) as IRDocument;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(json);
+  } catch (error) {
+    throw new Error(`Invalid IR JSON: ${error instanceof Error ? error.message : 'parse error'}`);
+  }
+
+  if (!parsed || typeof parsed !== 'object') {
+    throw new Error('Invalid IR: expected an object');
+  }
+
+  const doc = parsed as Record<string, unknown>;
+  if (doc.version !== '1.0.0') {
+    throw new Error(`Unsupported IR version: ${doc.version}. Expected "1.0.0"`);
+  }
+
+  if (!Array.isArray(doc.frames) || doc.frames.length === 0) {
+    throw new Error('Invalid IR: document must contain at least one frame');
+  }
+
+  return parsed as IRDocument;
 }
 
 /** Create a minimal IR document */

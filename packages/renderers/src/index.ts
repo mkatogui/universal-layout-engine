@@ -22,22 +22,27 @@ export { AndroidRenderer } from './android/index.js';
 export { DesktopRenderer } from './desktop/index.js';
 
 /**
- * Create the appropriate renderer for a target platform
- *
- * @param platform Target platform: 'web', 'ios', 'android', or 'desktop'
- * @returns Renderer instance for the specified platform
- * @throws Error if platform is not recognized
+ * Create the appropriate renderer for a target platform.
+ * Uses dynamic imports (ESM-compatible).
  */
-export function createRenderer(platform: 'web' | 'ios' | 'android' | 'desktop') {
+export async function createRenderer(platform: 'web' | 'ios' | 'android' | 'desktop') {
   switch (platform) {
-    case 'web':
-      return new (require('./web/index.js').WebRenderer)();
-    case 'ios':
-      return new (require('./ios/index.js').IosRenderer)();
-    case 'android':
-      return new (require('./android/index.js').AndroidRenderer)();
-    case 'desktop':
-      return new (require('./desktop/index.js').DesktopRenderer)();
+    case 'web': {
+      const { WebRenderer } = await import('./web/index.js');
+      return new WebRenderer();
+    }
+    case 'ios': {
+      const { IosRenderer } = await import('./ios/index.js');
+      return new IosRenderer();
+    }
+    case 'android': {
+      const { AndroidRenderer } = await import('./android/index.js');
+      return new AndroidRenderer();
+    }
+    case 'desktop': {
+      const { DesktopRenderer } = await import('./desktop/index.js');
+      return new DesktopRenderer();
+    }
     default:
       throw new Error(`Unknown platform: ${platform}`);
   }

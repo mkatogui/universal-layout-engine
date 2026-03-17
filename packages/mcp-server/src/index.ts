@@ -1,12 +1,13 @@
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
-  Server,
-  StdioServerTransport,
-  Tool,
-  TextContent,
-  Resource,
-  ResourceTemplate,
-} from '@modelcontextprotocol/sdk/server/index.js';
-import { CallToolRequest, ListResourcesRequest, ReadResourceRequest } from '@modelcontextprotocol/sdk/types.js';
+  CallToolRequestSchema,
+  ListResourcesRequestSchema,
+  ListToolsRequestSchema,
+  ReadResourceRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js';
+
+import type { Tool, Resource, ResourceTemplate } from '@modelcontextprotocol/sdk/types.js';
 
 import { extractLayoutTool } from './tools/extract-layout.js';
 import { generateCodeTool } from './tools/generate-code.js';
@@ -84,14 +85,21 @@ class UniversalLayoutEngineServer {
    */
   private setupHandlers(): void {
     // List tools
-    this.server.setRequestHandler(ListResourcesRequest, async () => {
+    this.server.setRequestHandler(ListToolsRequestSchema, async () => {
+      return {
+        tools: Array.from(this.tools.values()),
+      };
+    });
+
+    // List resources
+    this.server.setRequestHandler(ListResourcesRequestSchema, async () => {
       return {
         resources: Array.from(this.resources.values()),
       };
     });
 
     // Read resource
-    this.server.setRequestHandler(ReadResourceRequest, async (request) => {
+    this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
       const resource = this.resources.get(request.params.uri);
 
       if (!resource) {
@@ -107,7 +115,7 @@ class UniversalLayoutEngineServer {
               uri: request.params.uri,
               mimeType: 'application/json',
               text: tokenContent,
-            } as TextContent,
+            },
           ],
         };
       }
@@ -120,7 +128,7 @@ class UniversalLayoutEngineServer {
               uri: request.params.uri,
               mimeType: 'application/json',
               text: componentContent,
-            } as TextContent,
+            },
           ],
         };
       }
@@ -129,7 +137,7 @@ class UniversalLayoutEngineServer {
     });
 
     // Handle tool calls
-    this.server.setRequestHandler(CallToolRequest, async (request) => {
+    this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const tool = this.tools.get(request.params.name);
 
       if (!tool) {
