@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "paths": {
+      "@mkatogui/ule-core": ["./packages/core/src"],
+      "@mkatogui/ule-figma-connector": ["./packages/figma-connector/src"],
+      "@mkatogui/ule-renderers": ["./packages/renderers/src"],
+      "@mkatogui/ule-cli": ["./packages/cli/src"],
+      "@mkatogui/ule-mcp": ["./packages/mcp-server/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

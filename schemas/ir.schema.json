@@ -1,0 +1,417 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Universal Layout Engine - Intermediate Representation (IR) Schema",
+  "description": "Formal JSON Schema for the Universal Layout IR, defining the structure for layout data extracted from design tools and compiled to platform-specific code.",
+  "type": "object",
+  "required": ["version", "meta", "frames"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "IR schema version (e.g., '1.0')",
+      "pattern": "^\\d+\\.\\d+$"
+    },
+    "meta": {
+      "$ref": "#/definitions/IRMeta"
+    },
+    "frames": {
+      "type": "array",
+      "description": "Top-level frames/screens in the design",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/IRFrame"
+      }
+    }
+  },
+  "definitions": {
+    "IRMeta": {
+      "type": "object",
+      "description": "Metadata about the IR document",
+      "required": ["version"],
+      "additionalProperties": true,
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "IR schema version"
+        },
+        "figmaFileId": {
+          "type": "string",
+          "description": "Source Figma file ID"
+        },
+        "figmaFileUrl": {
+          "type": "string",
+          "description": "Source Figma file URL"
+        },
+        "exportedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Export timestamp (ISO 8601)"
+        },
+        "figmaPage": {
+          "type": "string",
+          "description": "Source Figma page name"
+        },
+        "figmaFrame": {
+          "type": "string",
+          "description": "Source Figma frame name"
+        },
+        "exportedBy": {
+          "type": "string",
+          "description": "User or system that exported the IR"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the design"
+        }
+      }
+    },
+    "Bounds": {
+      "type": "object",
+      "description": "Rectangular bounding box with position and dimensions",
+      "required": ["x", "y", "width", "height"],
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "number",
+          "description": "X coordinate (left position)"
+        },
+        "y": {
+          "type": "number",
+          "description": "Y coordinate (top position)"
+        },
+        "width": {
+          "type": "number",
+          "description": "Width in pixels",
+          "minimum": 0
+        },
+        "height": {
+          "type": "number",
+          "description": "Height in pixels",
+          "minimum": 0
+        }
+      }
+    },
+    "TokenReference": {
+      "type": "string",
+      "description": "Reference to a UDS token (format: $-category-name)",
+      "pattern": "^\\$-[a-z-]+$"
+    },
+    "Direction": {
+      "type": "string",
+      "enum": ["row", "column", "row-reverse", "column-reverse"],
+      "description": "Flex direction or layout direction"
+    },
+    "Alignment": {
+      "type": "string",
+      "enum": ["flex-start", "center", "flex-end", "space-between", "space-around", "space-evenly", "stretch"],
+      "description": "Alignment value"
+    },
+    "Overflow": {
+      "type": "string",
+      "enum": ["visible", "hidden", "scroll", "auto"],
+      "description": "Overflow behavior"
+    },
+    "SizeMode": {
+      "type": "string",
+      "enum": ["fixed", "fit-content", "fill"],
+      "description": "How a node should size itself"
+    },
+    "Breakpoint": {
+      "type": "string",
+      "enum": ["xs", "sm", "md", "lg", "xl", "2xl"],
+      "description": "Responsive breakpoint"
+    },
+    "IRNode": {
+      "type": "object",
+      "description": "Base properties for all IR nodes",
+      "required": ["id", "type", "name", "bounds"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique node identifier",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "type": {
+          "$ref": "#/definitions/NodeType"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the node",
+          "minLength": 1
+        },
+        "bounds": {
+          "$ref": "#/definitions/Bounds"
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "Node visibility",
+          "default": true
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "Node lock state",
+          "default": false
+        },
+        "tokens": {
+          "type": "object",
+          "description": "Token references for this node",
+          "additionalProperties": {
+            "$ref": "#/definitions/TokenReference"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional metadata",
+          "additionalProperties": true
+        }
+      }
+    },
+    "NodeType": {
+      "type": "string",
+      "enum": [
+        "frame",
+        "group",
+        "component_instance",
+        "text",
+        "image",
+        "rectangle",
+        "ellipse",
+        "polygon",
+        "line",
+        "component_set"
+      ],
+      "description": "Type of IR node"
+    },
+    "IRFrame": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "frame"
+            },
+            "children": {
+              "type": "array",
+              "description": "Child nodes",
+              "items": {
+                "$ref": "#/definitions/IRNodeVariant"
+              }
+            },
+            "backgroundColor": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "padding": {
+              "type": "object",
+              "description": "Frame padding",
+              "additionalProperties": {
+                "$ref": "#/definitions/TokenReference"
+              }
+            },
+            "responsiveLayout": {
+              "type": "object",
+              "description": "Responsive layout configuration",
+              "properties": {
+                "breakpoints": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Breakpoint"
+                  }
+                }
+              }
+            }
+          },
+          "required": ["type"]
+        }
+      ]
+    },
+    "IRGroup": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "group"
+            },
+            "children": {
+              "type": "array",
+              "description": "Child nodes",
+              "items": {
+                "$ref": "#/definitions/IRNodeVariant"
+              }
+            },
+            "layout": {
+              "type": "object",
+              "description": "Layout configuration",
+              "properties": {
+                "type": {
+                  "enum": ["flex", "grid"],
+                  "description": "Layout type"
+                },
+                "direction": {
+                  "$ref": "#/definitions/Direction"
+                },
+                "gap": {
+                  "$ref": "#/definitions/TokenReference"
+                },
+                "padding": {
+                  "$ref": "#/definitions/TokenReference"
+                },
+                "alignItems": {
+                  "$ref": "#/definitions/Alignment"
+                },
+                "justifyContent": {
+                  "$ref": "#/definitions/Alignment"
+                }
+              }
+            }
+          },
+          "required": ["type"]
+        }
+      ]
+    },
+    "IRComponentInstance": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "component_instance"
+            },
+            "componentKey": {
+              "type": "string",
+              "description": "Reference to component definition"
+            },
+            "variant": {
+              "type": "string",
+              "description": "Component variant"
+            },
+            "props": {
+              "type": "object",
+              "description": "Component props",
+              "additionalProperties": true
+            },
+            "children": {
+              "type": "array",
+              "description": "Override children",
+              "items": {
+                "$ref": "#/definitions/IRNodeVariant"
+              }
+            }
+          },
+          "required": ["type", "componentKey"]
+        }
+      ]
+    },
+    "IRText": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "text"
+            },
+            "content": {
+              "type": "string",
+              "description": "Text content"
+            },
+            "fontSize": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "fontWeight": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "color": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "lineHeight": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "letterSpacing": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "textAlign": {
+              "enum": ["left", "center", "right", "justify"],
+              "description": "Text alignment"
+            }
+          },
+          "required": ["type", "content"]
+        }
+      ]
+    },
+    "IRImage": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "image"
+            },
+            "source": {
+              "type": "string",
+              "description": "Image URL or data URI"
+            },
+            "alt": {
+              "type": "string",
+              "description": "Alt text for accessibility"
+            },
+            "objectFit": {
+              "enum": ["fill", "contain", "cover", "scale-down"],
+              "description": "Image fit mode"
+            }
+          },
+          "required": ["type", "source"]
+        }
+      ]
+    },
+    "IRShape": {
+      "allOf": [
+        { "$ref": "#/definitions/IRNode" },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": ["rectangle", "ellipse", "polygon", "line"]
+            },
+            "fill": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "stroke": {
+              "type": "object",
+              "description": "Stroke properties",
+              "properties": {
+                "color": {
+                  "$ref": "#/definitions/TokenReference"
+                },
+                "width": {
+                  "$ref": "#/definitions/TokenReference"
+                }
+              }
+            },
+            "borderRadius": {
+              "$ref": "#/definitions/TokenReference"
+            },
+            "shadow": {
+              "$ref": "#/definitions/TokenReference"
+            }
+          },
+          "required": ["type"]
+        }
+      ]
+    },
+    "IRNodeVariant": {
+      "oneOf": [
+        { "$ref": "#/definitions/IRFrame" },
+        { "$ref": "#/definitions/IRGroup" },
+        { "$ref": "#/definitions/IRComponentInstance" },
+        { "$ref": "#/definitions/IRText" },
+        { "$ref": "#/definitions/IRImage" },
+        { "$ref": "#/definitions/IRShape" }
+      ]
+    }
+  }
+}

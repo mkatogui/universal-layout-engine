@@ -1,0 +1,900 @@
+{
+  "version": "1.0.0",
+  "description": "Component mapping for all 43 UDS components across platforms",
+  "lastUpdated": "2026-03-17T00:00:00Z",
+  "components": {
+    "Button": {
+      "figma": {
+        "name": "Button",
+        "variants": ["primary", "secondary", "tertiary", "danger", "disabled"],
+        "frameId": "figma-frame-id-button"
+      },
+      "uds": {
+        "component": "Button",
+        "variant": "primary"
+      },
+      "platforms": {
+        "web": {
+          "component": "Button",
+          "path": "components/Button.tsx",
+          "imports": ["React"]
+        },
+        "ios": {
+          "component": "KatogUIButton",
+          "path": "Components/Button.swift",
+          "imports": ["SwiftUI"]
+        },
+        "android": {
+          "component": "KatogUIButton",
+          "path": "composables/Button.kt",
+          "imports": ["androidx.compose.material3"]
+        }
+      }
+    },
+    "Navbar": {
+      "figma": {
+        "name": "Navbar",
+        "variants": ["default", "sticky"],
+        "frameId": "figma-frame-id-navbar"
+      },
+      "uds": {
+        "component": "Navbar",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Navbar",
+          "path": "components/Navbar.tsx"
+        },
+        "ios": {
+          "component": "NavigationBar",
+          "path": "Components/NavigationBar.swift"
+        },
+        "android": {
+          "component": "TopAppBar",
+          "path": "composables/TopAppBar.kt"
+        }
+      }
+    },
+    "Sidebar": {
+      "figma": {
+        "name": "Sidebar",
+        "variants": ["default", "collapsible"]
+      },
+      "uds": {
+        "component": "Sidebar",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Sidebar",
+          "path": "components/Sidebar.tsx"
+        },
+        "ios": {
+          "component": "Sidebar",
+          "path": "Components/Sidebar.swift"
+        },
+        "android": {
+          "component": "NavigationDrawer",
+          "path": "composables/NavigationDrawer.kt"
+        }
+      }
+    },
+    "Tabs": {
+      "figma": {
+        "name": "Tabs",
+        "variants": ["default", "scrollable"]
+      },
+      "uds": {
+        "component": "Tabs",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Tabs",
+          "path": "components/Tabs.tsx"
+        },
+        "ios": {
+          "component": "TabView",
+          "path": "Components/TabView.swift"
+        },
+        "android": {
+          "component": "TabRow",
+          "path": "composables/TabRow.kt"
+        }
+      }
+    },
+    "Breadcrumb": {
+      "figma": {
+        "name": "Breadcrumb",
+        "variants": ["default"]
+      },
+      "uds": {
+        "component": "Breadcrumb",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Breadcrumb",
+          "path": "components/Breadcrumb.tsx"
+        },
+        "ios": {
+          "component": "Breadcrumb",
+          "path": "Components/Breadcrumb.swift"
+        },
+        "android": {
+          "component": "Breadcrumb",
+          "path": "composables/Breadcrumb.kt"
+        }
+      }
+    },
+    "Pagination": {
+      "figma": {
+        "name": "Pagination",
+        "variants": ["default", "compact"]
+      },
+      "uds": {
+        "component": "Pagination",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Pagination",
+          "path": "components/Pagination.tsx"
+        },
+        "ios": {
+          "component": "Pagination",
+          "path": "Components/Pagination.swift"
+        },
+        "android": {
+          "component": "Pagination",
+          "path": "composables/Pagination.kt"
+        }
+      }
+    },
+    "Input": {
+      "figma": {
+        "name": "TextField",
+        "variants": ["default", "focused", "error", "disabled"]
+      },
+      "uds": {
+        "component": "Input",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Input",
+          "path": "components/Input.tsx"
+        },
+        "ios": {
+          "component": "TextField",
+          "path": "Components/TextField.swift"
+        },
+        "android": {
+          "component": "TextField",
+          "path": "composables/TextField.kt"
+        }
+      }
+    },
+    "Select": {
+      "figma": {
+        "name": "Select",
+        "variants": ["default", "multiple"]
+      },
+      "uds": {
+        "component": "Select",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Select",
+          "path": "components/Select.tsx"
+        },
+        "ios": {
+          "component": "Picker",
+          "path": "Components/Picker.swift"
+        },
+        "android": {
+          "component": "ExposedDropdownMenuBox",
+          "path": "composables/ExposedDropdownMenuBox.kt"
+        }
+      }
+    },
+    "Checkbox": {
+      "figma": {
+        "name": "Checkbox",
+        "variants": ["default", "indeterminate"]
+      },
+      "uds": {
+        "component": "Checkbox",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Checkbox",
+          "path": "components/Checkbox.tsx"
+        },
+        "ios": {
+          "component": "Toggle",
+          "path": "Components/Toggle.swift"
+        },
+        "android": {
+          "component": "Checkbox",
+          "path": "composables/Checkbox.kt"
+        }
+      }
+    },
+    "Radio": {
+      "figma": {
+        "name": "Radio",
+        "variants": ["default"]
+      },
+      "uds": {
+        "component": "Radio",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Radio",
+          "path": "components/Radio.tsx"
+        },
+        "ios": {
+          "component": "RadioButton",
+          "path": "Components/RadioButton.swift"
+        },
+        "android": {
+          "component": "RadioButton",
+          "path": "composables/RadioButton.kt"
+        }
+      }
+    },
+    "Toggle": {
+      "figma": {
+        "name": "Toggle",
+        "variants": ["default", "disabled"]
+      },
+      "uds": {
+        "component": "Toggle",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Toggle",
+          "path": "components/Toggle.tsx"
+        },
+        "ios": {
+          "component": "Toggle",
+          "path": "Components/Toggle.swift"
+        },
+        "android": {
+          "component": "Switch",
+          "path": "composables/Switch.kt"
+        }
+      }
+    },
+    "DatePicker": {
+      "figma": {
+        "name": "DatePicker",
+        "variants": ["default", "range"]
+      },
+      "uds": {
+        "component": "DatePicker",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "DatePicker",
+          "path": "components/DatePicker.tsx"
+        },
+        "ios": {
+          "component": "DatePicker",
+          "path": "Components/DatePicker.swift"
+        },
+        "android": {
+          "component": "DatePicker",
+          "path": "composables/DatePicker.kt"
+        }
+      }
+    },
+    "FileUpload": {
+      "figma": {
+        "name": "FileUpload",
+        "variants": ["default", "multiple", "drag-drop"]
+      },
+      "uds": {
+        "component": "FileUpload",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "FileUpload",
+          "path": "components/FileUpload.tsx"
+        },
+        "ios": {
+          "component": "DocumentPickerViewController",
+          "path": "Components/DocumentPicker.swift"
+        },
+        "android": {
+          "component": "DocumentPicker",
+          "path": "composables/DocumentPicker.kt"
+        }
+      }
+    },
+    "Card": {
+      "figma": {
+        "name": "Card",
+        "variants": ["default", "elevated", "outlined"]
+      },
+      "uds": {
+        "component": "Card",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Card",
+          "path": "components/Card.tsx"
+        },
+        "ios": {
+          "component": "Card",
+          "path": "Components/Card.swift"
+        },
+        "android": {
+          "component": "Card",
+          "path": "composables/Card.kt"
+        }
+      }
+    },
+    "Table": {
+      "figma": {
+        "name": "DataTable",
+        "variants": ["default", "sortable", "paginated"]
+      },
+      "uds": {
+        "component": "Table",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "DataTable",
+          "path": "components/DataTable.tsx"
+        },
+        "ios": {
+          "component": "List",
+          "path": "Components/TableView.swift"
+        },
+        "android": {
+          "component": "LazyColumn",
+          "path": "composables/TableView.kt"
+        }
+      }
+    },
+    "Badge": {
+      "figma": {
+        "name": "Badge",
+        "variants": ["default", "primary", "success", "warning", "error"]
+      },
+      "uds": {
+        "component": "Badge",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Badge",
+          "path": "components/Badge.tsx"
+        },
+        "ios": {
+          "component": "Badge",
+          "path": "Components/Badge.swift"
+        },
+        "android": {
+          "component": "Badge",
+          "path": "composables/Badge.kt"
+        }
+      }
+    },
+    "Avatar": {
+      "figma": {
+        "name": "Avatar",
+        "variants": ["default", "initials", "icon"]
+      },
+      "uds": {
+        "component": "Avatar",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Avatar",
+          "path": "components/Avatar.tsx"
+        },
+        "ios": {
+          "component": "Avatar",
+          "path": "Components/Avatar.swift"
+        },
+        "android": {
+          "component": "Avatar",
+          "path": "composables/Avatar.kt"
+        }
+      }
+    },
+    "Tooltip": {
+      "figma": {
+        "name": "Tooltip",
+        "variants": ["default", "dark"]
+      },
+      "uds": {
+        "component": "Tooltip",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Tooltip",
+          "path": "components/Tooltip.tsx"
+        },
+        "ios": {
+          "component": "Popover",
+          "path": "Components/Popover.swift"
+        },
+        "android": {
+          "component": "Tooltip",
+          "path": "composables/Tooltip.kt"
+        }
+      }
+    },
+    "Stat": {
+      "figma": {
+        "name": "Stat",
+        "variants": ["default"]
+      },
+      "uds": {
+        "component": "Stat",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Stat",
+          "path": "components/Stat.tsx"
+        },
+        "ios": {
+          "component": "StatCard",
+          "path": "Components/StatCard.swift"
+        },
+        "android": {
+          "component": "StatCard",
+          "path": "composables/StatCard.kt"
+        }
+      }
+    },
+    "Skeleton": {
+      "figma": {
+        "name": "Skeleton",
+        "variants": ["text", "circle", "rect"]
+      },
+      "uds": {
+        "component": "Skeleton",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Skeleton",
+          "path": "components/Skeleton.tsx"
+        },
+        "ios": {
+          "component": "Skeleton",
+          "path": "Components/Skeleton.swift"
+        },
+        "android": {
+          "component": "Skeleton",
+          "path": "composables/Skeleton.kt"
+        }
+      }
+    },
+    "Alert": {
+      "figma": {
+        "name": "Alert",
+        "variants": ["info", "success", "warning", "error"]
+      },
+      "uds": {
+        "component": "Alert",
+        "variant": "info"
+      },
+      "platforms": {
+        "web": {
+          "component": "Alert",
+          "path": "components/Alert.tsx"
+        },
+        "ios": {
+          "component": "Alert",
+          "path": "Components/Alert.swift"
+        },
+        "android": {
+          "component": "Alert",
+          "path": "composables/Alert.kt"
+        }
+      }
+    },
+    "Toast": {
+      "figma": {
+        "name": "Toast",
+        "variants": ["default", "success", "error"]
+      },
+      "uds": {
+        "component": "Toast",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Toast",
+          "path": "components/Toast.tsx"
+        },
+        "ios": {
+          "component": "Toast",
+          "path": "Components/Toast.swift"
+        },
+        "android": {
+          "component": "Snackbar",
+          "path": "composables/Snackbar.kt"
+        }
+      }
+    },
+    "Modal": {
+      "figma": {
+        "name": "Modal",
+        "variants": ["default", "alert", "confirmation"]
+      },
+      "uds": {
+        "component": "Modal",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Modal",
+          "path": "components/Modal.tsx"
+        },
+        "ios": {
+          "component": "Sheet",
+          "path": "Components/Sheet.swift"
+        },
+        "android": {
+          "component": "Dialog",
+          "path": "composables/Dialog.kt"
+        }
+      }
+    },
+    "Progress": {
+      "figma": {
+        "name": "Progress",
+        "variants": ["linear", "circular"]
+      },
+      "uds": {
+        "component": "Progress",
+        "variant": "linear"
+      },
+      "platforms": {
+        "web": {
+          "component": "Progress",
+          "path": "components/Progress.tsx"
+        },
+        "ios": {
+          "component": "ProgressView",
+          "path": "Components/ProgressView.swift"
+        },
+        "android": {
+          "component": "LinearProgressIndicator",
+          "path": "composables/LinearProgressIndicator.kt"
+        }
+      }
+    },
+    "CommandPalette": {
+      "figma": {
+        "name": "CommandPalette",
+        "variants": ["default"]
+      },
+      "uds": {
+        "component": "CommandPalette",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "CommandPalette",
+          "path": "components/CommandPalette.tsx"
+        },
+        "ios": {
+          "component": "SearchBar",
+          "path": "Components/SearchBar.swift"
+        },
+        "android": {
+          "component": "SearchBar",
+          "path": "composables/SearchBar.kt"
+        }
+      }
+    },
+    "Hero": {
+      "figma": {
+        "name": "Hero",
+        "variants": ["default", "with-image"]
+      },
+      "uds": {
+        "component": "Hero",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Hero",
+          "path": "components/Hero.tsx"
+        },
+        "ios": {
+          "component": "Hero",
+          "path": "Components/Hero.swift"
+        },
+        "android": {
+          "component": "Hero",
+          "path": "composables/Hero.kt"
+        }
+      }
+    },
+    "Accordion": {
+      "figma": {
+        "name": "Accordion",
+        "variants": ["default", "single"]
+      },
+      "uds": {
+        "component": "Accordion",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Accordion",
+          "path": "components/Accordion.tsx"
+        },
+        "ios": {
+          "component": "Accordion",
+          "path": "Components/Accordion.swift"
+        },
+        "android": {
+          "component": "Accordion",
+          "path": "composables/Accordion.kt"
+        }
+      }
+    },
+    "Divider": {
+      "figma": {
+        "name": "Divider",
+        "variants": ["horizontal", "vertical"]
+      },
+      "uds": {
+        "component": "Divider",
+        "variant": "horizontal"
+      },
+      "platforms": {
+        "web": {
+          "component": "Divider",
+          "path": "components/Divider.tsx"
+        },
+        "ios": {
+          "component": "Divider",
+          "path": "Components/Divider.swift"
+        },
+        "android": {
+          "component": "Divider",
+          "path": "composables/Divider.kt"
+        }
+      }
+    },
+    "Footer": {
+      "figma": {
+        "name": "Footer",
+        "variants": ["default", "dark"]
+      },
+      "uds": {
+        "component": "Footer",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Footer",
+          "path": "components/Footer.tsx"
+        },
+        "ios": {
+          "component": "Footer",
+          "path": "Components/Footer.swift"
+        },
+        "android": {
+          "component": "Footer",
+          "path": "composables/Footer.kt"
+        }
+      }
+    },
+    "DropdownMenu": {
+      "figma": {
+        "name": "DropdownMenu",
+        "variants": ["default", "nested"]
+      },
+      "uds": {
+        "component": "DropdownMenu",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "DropdownMenu",
+          "path": "components/DropdownMenu.tsx"
+        },
+        "ios": {
+          "component": "Menu",
+          "path": "Components/Menu.swift"
+        },
+        "android": {
+          "component": "DropdownMenu",
+          "path": "composables/DropdownMenu.kt"
+        }
+      }
+    },
+    "Pricing": {
+      "figma": {
+        "name": "PricingTable",
+        "variants": ["default", "cards"]
+      },
+      "uds": {
+        "component": "Pricing",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "PricingTable",
+          "path": "components/PricingTable.tsx"
+        },
+        "ios": {
+          "component": "PricingView",
+          "path": "Components/PricingView.swift"
+        },
+        "android": {
+          "component": "PricingLayout",
+          "path": "composables/PricingLayout.kt"
+        }
+      }
+    },
+    "Testimonial": {
+      "figma": {
+        "name": "Testimonial",
+        "variants": ["default", "carousel"]
+      },
+      "uds": {
+        "component": "Testimonial",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Testimonial",
+          "path": "components/Testimonial.tsx"
+        },
+        "ios": {
+          "component": "TestimonialCard",
+          "path": "Components/TestimonialCard.swift"
+        },
+        "android": {
+          "component": "TestimonialCard",
+          "path": "composables/TestimonialCard.kt"
+        }
+      }
+    },
+    "FeatureCard": {
+      "figma": {
+        "name": "FeatureCard",
+        "variants": ["default", "with-icon"]
+      },
+      "uds": {
+        "component": "FeatureCard",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "FeatureCard",
+          "path": "components/FeatureCard.tsx"
+        },
+        "ios": {
+          "component": "FeatureCard",
+          "path": "Components/FeatureCard.swift"
+        },
+        "android": {
+          "component": "FeatureCard",
+          "path": "composables/FeatureCard.kt"
+        }
+      }
+    },
+    "CodeBlock": {
+      "figma": {
+        "name": "CodeBlock",
+        "variants": ["default", "copy-button"]
+      },
+      "uds": {
+        "component": "CodeBlock",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "CodeBlock",
+          "path": "components/CodeBlock.tsx"
+        },
+        "ios": {
+          "component": "CodeBlock",
+          "path": "Components/CodeBlock.swift"
+        },
+        "android": {
+          "component": "CodeBlock",
+          "path": "composables/CodeBlock.kt"
+        }
+      }
+    },
+    "Form": {
+      "figma": {
+        "name": "Form",
+        "variants": ["default", "multi-step"]
+      },
+      "uds": {
+        "component": "Form",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Form",
+          "path": "components/Form.tsx"
+        },
+        "ios": {
+          "component": "Form",
+          "path": "Components/Form.swift"
+        },
+        "android": {
+          "component": "Form",
+          "path": "composables/Form.kt"
+        }
+      }
+    },
+    "Stepper": {
+      "figma": {
+        "name": "Stepper",
+        "variants": ["default", "vertical"]
+      },
+      "uds": {
+        "component": "Stepper",
+        "variant": "default"
+      },
+      "platforms": {
+        "web": {
+          "component": "Stepper",
+          "path": "components/Stepper.tsx"
+        },
+        "ios": {
+          "component": "Stepper",
+          "path": "Components/Stepper.swift"
+        },
+        "android": {
+          "component": "Stepper",
+          "path": "composables/Stepper.kt"
+        }
+      }
+    },
+    "Timeline": {
+      "figma": {
+        "name": "Timeline",
+        "variants": ["horizontal", "vertical"]
+      },
+      "uds": {
+        "component": "Timeline",
+        "variant": "horizontal"
+      },
+      "platforms": {
+        "web": {
+          "component": "Timeline",
+          "path": "components/Timeline.tsx"
+        },
+        "ios": {
+          "component": "Timeline",
+          "path": "Components/Timeline.swift"
+        },
+        "android": {
+          "component": "Timeline",
+          "path": "composables/Timeline.kt"
+        }
+      }
+    }
+  }
+}

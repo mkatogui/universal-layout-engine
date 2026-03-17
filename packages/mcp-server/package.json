@@ -1,0 +1,43 @@
+{
+  "name": "@mkatogui/ule-mcp",
+  "version": "0.1.0",
+  "description": "MCP Server for Universal Layout Engine - Claude integration for design-to-code workflows",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@mkatogui/ule-core": "workspace:*",
+    "@mkatogui/ule-figma-connector": "workspace:*",
+    "@mkatogui/ule-renderers": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "figma",
+    "design-to-code",
+    "layout",
+    "cross-platform"
+  ],
+  "author": "mkatogui",
+  "license": "MIT"
+}

@@ -1,0 +1,51 @@
+{
+  "name": "@mkatogui/ule-cli",
+  "version": "0.1.0",
+  "description": "Universal Layout Engine CLI - Transform Figma designs into multi-platform code",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "ule": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./commands": {
+      "import": "./dist/commands/index.js"
+    },
+    "./config": {
+      "import": "./dist/config.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@mkatogui/ule-core": "workspace:*",
+    "@mkatogui/ule-figma-connector": "workspace:*",
+    "@mkatogui/ule-renderers": "workspace:*",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "figma",
+    "design-to-code",
+    "layout",
+    "cross-platform",
+    "ui-generation"
+  ],
+  "author": "mkatogui",
+  "license": "MIT"
+}
