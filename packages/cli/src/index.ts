@@ -8,6 +8,7 @@ import { validateCommand } from './commands/validate.js';
 import { exportIrCommand } from './commands/export-ir.js';
 import { mapComponentsCommand } from './commands/map-components.js';
 import { previewCommand } from './commands/preview.js';
+import { renderCommand } from './commands/render.js';
 import { diffCommand } from './commands/diff.js';
 
 /**
@@ -87,6 +88,17 @@ program
   .option('--out <path>', 'Output file path', './component-map.json')
   .option('--suggest', 'Auto-detect components and suggest mappings')
   .action(mapComponentsCommand);
+
+/**
+ * Render IR JSON to platform code (no Figma required)
+ */
+program
+  .command('render')
+  .description('Render IR JSON to platform code (works without Figma)')
+  .option('--ir <path>', 'IR JSON file path', './ir.json')
+  .option('--platform <name>', 'Target platform (web)', 'web')
+  .option('--out <dir>', 'Output directory', './dist')
+  .action(renderCommand);
 
 /**
  * Launch development preview server

@@ -42,8 +42,11 @@ npx turbo build
 # Initialize a project
 npx ule init
 
-# Generate layouts from Figma
-npx ule generate --figma-file <FILE_ID> --platform web
+# With Figma: generate layouts from design
+npx ule generate --file <FILE_ID> --to web
+
+# Without Figma: render IR JSON directly
+npx ule render --ir examples/sample-ir.json --out ./dist
 ```
 
 ## Packages
@@ -53,7 +56,7 @@ npx ule generate --figma-file <FILE_ID> --platform web
 | `@mkatogui/ule-core` | IR type system, tree traversal/query/transform, token resolver (CSS/Swift/Compose), validation |
 | `@mkatogui/ule-figma-connector` | Figma REST client, MCP client wrapper, Code Connect mapper, layout parser |
 | `@mkatogui/ule-renderers` | Platform renderers — React+BEM, SwiftUI, Jetpack Compose, Desktop |
-| `@mkatogui/ule-cli` | CLI with 8 commands: init, generate, sync-tokens, validate, export-ir, map-components, preview, diff |
+| `@mkatogui/ule-cli` | CLI with 9 commands: init, generate, render, sync-tokens, validate, export-ir, map-components, preview, diff |
 | `@mkatogui/ule-mcp` | MCP Server with tools (extract-layout, generate-code, sync-tokens, validate-layout) and resources |
 
 ## Design Token System
@@ -78,13 +81,25 @@ Tokens resolve per platform:
 ```bash
 ule init                    # Create ule.config.json and output directories
 ule generate                # Full pipeline: Figma → IR → validate → render → write
+ule render                  # Render IR JSON to code (no Figma required)
 ule sync-tokens             # Export tokens to CSS/Swift/Compose/JSON
-ule validate <file>         # Validate an IR document
+ule validate --ir <path>     # Validate an IR document
 ule export-ir               # Export Figma frames as IR JSON
 ule map-components          # Manage Figma ↔ UDS component mappings
-ule preview                 # Start local dev server for rendered output
+ule preview --ir <path>     # Start local dev server for rendered output
 ule diff <a> <b>            # Compare two IR snapshots
 ```
+
+## Without Figma
+
+You can use ULE without Figma by writing IR JSON directly. See `examples/` for a sample:
+
+```bash
+npx ule render --ir examples/sample-ir.json --out ./dist
+npx ule validate --ir examples/sample-ir.json
+```
+
+The IR format is a JSON tree of layout nodes (Frame, Stack, Grid, Text, etc.) with `$`-prefixed token references. See `examples/README.md` and `schemas/ir.schema.json` for the full structure.
 
 ## MCP Server
 

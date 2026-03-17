@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "meta": {
+    "name": "Sample Page (No Figma)",
+    "description": "Example IR document for use without Figma",
+    "generatedAt": "2025-03-17T00:00:00.000Z",
+    "generatedBy": "manual"
+  },
+  "frames": [
+    {
+      "id": "frame-1",
+      "type": "FrameNode",
+      "name": "Home",
+      "children": [
+        {
+          "id": "stack-1",
+          "type": "StackNode",
+          "name": "Header",
+          "direction": "column",
+          "gap": "$space-6",
+          "mainAxisAlign": "center",
+          "crossAxisAlign": "center",
+          "padding": { "y": "$space-8", "x": "$space-6" },
+          "background": { "color": "$color-bg-surface" },
+          "children": [
+            {
+              "id": "text-1",
+              "type": "TextNode",
+              "name": "Title",
+              "content": "Welcome to ULE",
+              "tag": "h1",
+              "fontSize": "$font-size-2xl",
+              "fontWeight": "$font-weight-bold",
+              "color": "$color-text-primary"
+            },
+            {
+              "id": "text-2",
+              "type": "TextNode",
+              "name": "Subtitle",
+              "content": "Build layouts without Figma — write IR JSON directly.",
+              "tag": "p",
+              "fontSize": "$font-size-md",
+              "color": "$color-text-secondary"
+            }
+          ]
+        },
+        {
+          "id": "stack-2",
+          "type": "StackNode",
+          "name": "Content",
+          "direction": "row",
+          "gap": "$space-4",
+          "mainAxisAlign": "space-between",
+          "padding": { "y": "$space-6", "x": "$space-6" },
+          "children": [
+            {
+              "id": "text-3",
+              "type": "TextNode",
+              "name": "Card 1",
+              "content": "Card A",
+              "tag": "span",
+              "padding": { "y": "$space-4", "x": "$space-4" },
+              "background": { "color": "$color-bg-secondary" },
+              "color": "$color-text-primary"
+            },
+            {
+              "id": "text-4",
+              "type": "TextNode",
+              "name": "Card 2",
+              "content": "Card B",
+              "tag": "span",
+              "padding": { "y": "$space-4", "x": "$space-4" },
+              "background": { "color": "$color-bg-secondary" },
+              "color": "$color-text-primary"
+            },
+            {
+              "id": "text-5",
+              "type": "TextNode",
+              "name": "Card 3",
+              "content": "Card C",
+              "tag": "span",
+              "padding": { "y": "$space-4", "x": "$space-4" },
+              "background": { "color": "$color-bg-secondary" },
+              "color": "$color-text-primary"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

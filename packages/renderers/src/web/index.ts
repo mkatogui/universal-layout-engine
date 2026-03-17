@@ -232,12 +232,23 @@ export class WebRenderer {
   private buildPaddingStyle(padding?: Padding): Record<string, string> {
     if (!padding) return {};
     const result: Record<string, string> = {};
-    const entries = Object.entries(padding) as [string, string | number | undefined][];
-    for (const [side, value] of entries) {
+    const resolved: Record<string, string> = {};
+    for (const [side, value] of Object.entries(padding) as [string, string | number | undefined][]) {
       if (value && typeof value === 'string') {
-        const cssKey = `padding${side.charAt(0).toUpperCase()}${side.slice(1)}`;
-        result[cssKey] = this.tokenToVar(value);
+        const v = this.tokenToVar(value);
+        if (side === 'y') {
+          resolved.top = v;
+          resolved.bottom = v;
+        } else if (side === 'x') {
+          resolved.left = v;
+          resolved.right = v;
+        } else {
+          resolved[side] = v;
+        }
       }
+    }
+    for (const [side, value] of Object.entries(resolved)) {
+      result[`padding${side.charAt(0).toUpperCase()}${side.slice(1)}`] = value;
     }
     return result;
   }
